@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عالمي | WORLD</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { cairo: ['Cairo', 'sans-serif'] },
+                    colors: {
+                        cyber: {
+                            bg: '#0B0F19',
+                            card: '#161F33',
+                            accent: '#6366F1',
+                            glow: '#8B5CF6',
+                            gold: '#F59E0B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #0B0F19; color: #E2E8F0; }
+        .glass-card { background: rgba(22, 31, 51, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .screen-view { display: none; }
+        .screen-view.active { display: block; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between max-w-md mx-auto relative shadow-2xl overflow-x-hidden border-x border-slate-800">
+
+    <!-- Header / شريط أعلى التطبيق -->
+    <header class="p-4 glass-card rounded-b-2xl sticky top-0 z-50 flex justify-between items-center border-b border-indigo-500/20">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
+                W
+            </div>
+            <div>
+                <h1 class="font-extrabold text-lg text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-300">عالمي | WORLD</h1>
+                <p class="text-xs text-slate-400" id="currentScreenTitle">تسجيل الدخول</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 bg-slate-900/80 px-3 py-1.5 rounded-full border border-amber-500/30">
+            <i class="fa-solid fa-crown text-amber-400 text-xs"></i>
+            <span class="text-xs font-bold text-amber-300" id="userLevel">مستوى 1</span>
+        </div>
+    </header>
+
+    <!-- Main Content Containers (الشاشات الثلاث) -->
+    <main class="p-4 flex-1 mb-16">
+
+        <!-- الشاشة الأولى: Screen1 (تسجيل الدخول / البداية) -->
+        <section id="screen1" class="screen-view active space-y-6">
+            <div class="text-center py-6">
+                <div class="w-20 h-20 mx-auto mb-4 rounded-3xl bg-indigo-600/20 flex items-center justify-center border border-indigo-500/30">
+                    <i class="fa-solid fa-[#6366F1] fa-user-astronaut text-4xl text-indigo-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-1">مرحباً بكِ في عالمكِ</h2>
+                <p class="text-sm text-slate-400">سجلي دخولك للوصول إلى بياناتك والمخزون</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="glass-card p-6 rounded-2xl space-y-4">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">اسم المستخدم / البريد الإلكتروني</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute right-3 top-3.5 text-slate-500 text-sm"></i>
+                        <input type="text" id="usernameInput" required placeholder="ادخلي اسمكِ أو إيميلكِ" 
+                            class="w-full bg-slate-900/90 text-white rounded-xl pr-10 pl-4 py-2.5 text-sm border border-slate-700 focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">كلمة المرور</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute right-3 top-3.5 text-slate-500 text-sm"></i>
+                        <input type="password" required placeholder="••••••••" 
+                            class="w-full bg-slate-900/90 text-white rounded-xl pr-10 pl-4 py-2.5 text-sm border border-slate-700 focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <button type="submit" 
+                    class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 hover:opacity-95 transition">
+                    تسجيل الدخول <i class="fa-solid fa-arrow-left mr-2"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- الشاشة الثانية: Screen2 (إدخال بيانات المخزون والمهام) -->
+        <section id="screen2" class="screen-view space-y-6">
+            <div class="glass-card p-5 rounded-2xl">
+                <h3 class="font-bold text-lg text-indigo-300 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle"></i> إضافة صنف إلى المخزون
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">اسم الصنف / المنتج</label>
+                        <input type="text" id="itemName" placeholder="مثال: كتاب، أداة، شاحن..." 
+                            class="w-full bg-slate-900/90 text-white rounded-xl px-4 py-2.5 text-sm border border-slate-700 focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">الكمية</label>
+                        <input type="number" id="itemQty" placeholder="1" 
+                            class="w-full bg-slate-900/90 text-white rounded-xl px-4 py-2.5 text-sm border border-slate-700 focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <button onclick="saveItem()" 
+                        class="w-full py-3 rounded-xl bg-emerald-600 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 hover:bg-emerald-500 transition">
+                        <i class="fa-solid fa-floppy-disk ml-1"></i> حفظ في المخزون (+20 XP)
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="switchScreen('screen3')" 
+                class="w-full py-3 rounded-xl glass-card text-indigo-400 border border-indigo-500/30 font-bold text-sm hover:bg-indigo-500/10 transition flex items-center justify-center gap-2">
+                عرض قائمة المخزون الحالية <i class="fa-solid fa-boxes-stacked"></i>
+            </button>
+        </section>
+
+        <!-- الشاشة الثالثة: Screen3 (عرض المخزون والتفاصيل) -->
+        <section id="screen3" class="screen-view space-y-6">
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold text-lg text-purple-300 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> قائمة العناصر المسجلة
+                </h3>
+                <span id="itemsCount" class="text-xs bg-purple-500/20 text-purple-300 px-2.5 py-1 rounded-full font-bold">0 عناصر</span>
+            </div>
+
+            <div id="inventoryList" class="space-y-3">
+                <!-- العناصر المضافة ستظهر هنا تلقائياً -->
+            </div>
+
+            <button onclick="switchScreen('screen2')" 
+                class="w-full py-3 rounded-xl bg-slate-800 text-slate-300 font-bold text-sm hover:bg-slate-700 transition">
+                <i class="fa-solid fa-arrow-right ml-1"></i> العودة لإضافة عنصر جديد
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar / شريط التنقل السفلي -->
+    <nav class="fixed bottom-0 max-w-md w-full glass-card border-t border-slate-800 flex justify-around p-3 z-50">
+        <button onclick="switchScreen('screen1')" id="nav-screen1" class="flex flex-col items-center gap-1 text-indigo-400">
+            <i class="fa-solid fa-user text-lg"></i>
+            <span class="text-[10px] font-bold">الدخول</span>
+        </button>
+        <button onclick="switchScreen('screen2')" id="nav-screen2" class="flex flex-col items-center gap-1 text-slate-500">
+            <i class="fa-solid fa-pen-to-square text-lg"></i>
+            <span class="text-[10px] font-bold">إضافة</span>
+        </button>
+        <button onclick="switchScreen('screen3')" id="nav-screen3" class="flex flex-col items-center gap-1 text-slate-500">
+            <i class="fa-solid fa-boxes-stacked text-lg"></i>
+            <span class="text-[10px] font-bold">المخزون</span>
+        </button>
+    </nav>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let inventory = JSON.parse(localStorage.getItem('world_inventory') || '[]');
+        let xp = parseInt(localStorage.getItem('world_xp') || '0');
+
+        function updateXP(amount) {
+            xp += amount;
+            localStorage.setItem('world_xp', xp);
+            const level = Math.floor(xp / 50) + 1;
+            document.getElementById('userLevel').innerText = `مستوى ${level}`;
+        }
+
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+
+            const titles = {
+                'screen1': 'تسجيل الدخول',
+                'screen2': 'إضافة للمخزون',
+                'screen3': 'قائمة المخزون'
+            };
+            document.getElementById('currentScreenTitle').innerText = titles[screenId];
+
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('text-indigo-400');
+                btn.classList.add('text-slate-500');
+            });
+            document.getElementById(`nav-${screenId}`).classList.remove('text-slate-500');
+            document.getElementById(`nav-${screenId}`).classList.add('text-indigo-400');
+
+            if(screenId === 'screen3') renderInventory();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('usernameInput').value;
+            if(username) {
+                updateXP(10);
+                switchScreen('screen2');
+            }
+        }
+
+        function saveItem() {
+            const name = document.getElementById('itemName').value;
+            const qty = document.getElementById('itemQty').value || 1;
+
+            if(!name) return alert('الرجاء كتابة اسم الصنف');
+
+            inventory.push({ name, qty, date: new Date().toLocaleDateString('ar-SA') });
+            localStorage.setItem('world_inventory', JSON.stringify(inventory));
+
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemQty').value = '';
+
+            updateXP(20);
+            switchScreen('screen3');
+        }
+
+        function renderInventory() {
+            const container = document.getElementById('inventoryList');
+            document.getElementById('itemsCount').innerText = `${inventory.length} عناصر`;
+
+            if(inventory.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-500 text-sm">
+                        لا توجد عناصر محفوظة حتى الآن
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = inventory.map((item, index) => `
+                <div class="glass-card p-4 rounded-xl flex justify-between items-center border border-slate-800">
+                    <div>
+                        <h4 class="font-bold text-white text-sm">${item.name}</h4>
+                        <p class="text-xs text-slate-400">التاريخ: ${item.date}</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="bg-indigo-500/20 text-indigo-300 font-bold px-3 py-1 rounded-lg text-xs">
+                            الكمية: ${item.qty}
+                        </span>
+                        <button onclick="deleteItem(${index})" class="text-rose-400 hover:text-rose-300 text-sm">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteItem(index) {
+            inventory.splice(index, 1);
+            localStorage.setItem('world_inventory', JSON.stringify(inventory));
+            renderInventory();
+        }
+
+        // Initialize Level on load
+        updateXP(0);
+    </script>
+</body>
+</html>
